@@ -93,159 +93,332 @@ try {
 </head>
 <body>
 <nav class="navbar">
-    <div class="nav-left">
+    <div class="navbar-container">
         <form method="get" action="cliente.php" class="search-form">
-            <input type="text" name="search" placeholder="Buscar libro..."
+            <input type="text" name="search" placeholder="Buscar por título, autor o tema..."
                 value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
             <button type="submit">🔍</button>
         </form>
-    </div>
-    <div class="nav-right">
-        <a href="cliente.php">Inicio</a>
-        <a href="cliente.php?view=authors">Autores</a>
-        <a href="cliente.php?view=categories">Categorías</a>
-        <a href="orders.php">Mis Pedidos</a>
-        <a href="vistas/logout.php" class="logout">Cerrar sesión</a>
+
+        <div class="navbar-links">
+            <a href="cliente.php">🏠 Inicio</a>
+            <a href="cliente.php?view=authors">👩‍💼 Autores</a>
+            <a href="cliente.php?view=categories">📚 Categorías</a>
+            <a href="orders.php">🛒 Mis Pedidos</a>
+            <form method="post" action="vistas/logout.php" class="logout-form">
+                <button type="submit">⏻ Cerrar sesión</button>
+            </form>
+        </div>
     </div>
 </nav>
 
 <style>
-    .navbar {
-        background-color: #2c3e50;
-        padding: 12px 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    body {
+        margin: 0;
         font-family: 'Segoe UI', sans-serif;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar {
+        background-color: #1f2d3d;
+        padding: 0;
+        width: 100%;
+    }
+
+    .navbar-container {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px;
     }
 
     .search-form {
+        width: 100%;
+        max-width: 700px;
         display: flex;
-        align-items: center;
+        margin-bottom: 12px;
     }
 
     .search-form input[type="text"] {
-        padding: 6px 10px;
-        border: none;
-        border-radius: 4px 0 0 4px;
-        outline: none;
-        font-size: 14px;
+        flex: 1;
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px 0 0 6px;
+        font-size: 16px;
+        background-color: #f0f4f8;
     }
 
     .search-form button {
-        padding: 6px 10px;
-        border: none;
-        border-radius: 0 4px 4px 0;
+        padding: 10px 20px;
         background-color: #3498db;
         color: white;
+        border: none;
+        border-radius: 0 6px 6px 0;
+        font-size: 16px;
         cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.3s;
     }
 
     .search-form button:hover {
         background-color: #2980b9;
     }
 
-    .nav-right a {
+    .navbar-links {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        background-color: #2980b9;
+        padding: 12px 0;
+    }
+
+    .navbar-links a {
         color: white;
-        margin-left: 20px;
+        padding: 10px 20px;
         text-decoration: none;
         font-weight: 500;
-        transition: color 0.2s;
+        font-size: 16px;
+        background-color: #3498db;
+        margin: 5px;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+        flex-grow: 1;
+        text-align: center;
     }
 
-    .nav-right a:hover {
-        color: #f1c40f;
+    .navbar-links a:hover {
+        background-color: #1d7eb8;
     }
 
-    .nav-right .logout {
-        color: #e74c3c;
+    .logout-form {
+        margin: 5px;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .logout-form button {
+        background-color: #e74c3c;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
         font-weight: bold;
+        transition: background-color 0.3s;
     }
 
-    .nav-right .logout:hover {
-        color: #c0392b;
+    .logout-form button:hover {
+        background-color: #c0392b;
+    }
+
+    @media (max-width: 600px) {
+        .navbar-links a,
+        .logout-form button {
+            font-size: 14px;
+            padding: 10px 10px;
+        }
     }
 </style>
+
 
 
 <h1><?= htmlspecialchars($title_heading) ?></h1>
 
 <?php if ($view === 'authors'): ?>
-    <ul>
+    <style>
+        .author-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .author-card {
+            background-color: #f0f8ff;
+            border: 1px solid #d0e9f7;
+            border-radius: 8px;
+            padding: 12px 18px;
+            min-width: 180px;
+            text-align: center;
+            font-weight: 500;
+            color: #0077b6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .author-card:hover {
+            transform: scale(1.03);
+            background-color: #e0f4ff;
+        }
+
+        .author-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+
+    <div class="author-grid">
     <?php foreach ($authors as $a): ?>
-        <li>
-          <a href="cliente.php?author=<?= urlencode($a) ?>">
-            <?= htmlspecialchars($a) ?>
-          </a>
-        </li>
+        <div class="author-card">
+            <a href="cliente.php?author=<?= urlencode($a) ?>">
+                <?= htmlspecialchars($a) ?>
+            </a>
+        </div>
     <?php endforeach; ?>
-    </ul>
+    </div>
 
 <?php elseif ($view === 'categories'): ?>
-    <ul>
+    <style>
+        .category-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .category-card {
+            background-color: #e6f4fa;
+            border: 1px solid #c0e2f2;
+            border-radius: 8px;
+            padding: 16px 20px;
+            min-width: 180px;
+            text-align: center;
+            font-weight: 500;
+            color: #0077b6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+            background-color: #d4f1ff;
+        }
+
+        .category-card a {
+            text-decoration: none;
+            color: inherit;
+            font-size: 16px;
+        }
+    </style>
+
+    <div class="category-grid">
     <?php foreach ($categories as $key => $label): ?>
-        <li>
-          <a href="cliente.php?subject=<?= htmlspecialchars($key) ?>">
-            <?= htmlspecialchars($label) ?>
-          </a>
-        </li>
+        <div class="category-card">
+            <a href="cliente.php?subject=<?= htmlspecialchars($key) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </div>
     <?php endforeach; ?>
-    </ul>
+    </div>
+
 
 <?php else: ?>
     <?php if (!empty($error)): ?>
         <p style="color:red"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
 
-    <div style="display:flex;flex-wrap:wrap">
-    <?php foreach ($books as $b):
-        // unificar campos entre search.json y works.json
-        $title = $b['title'] ?? ($b['title_suggest'] ?? 'Sin título');
-        // autores
-        $authors = [];
-        if (!empty($b['authors'])) {
-            // works.json usa ['authors'][*]['name']
-            foreach ($b['authors'] as $a) {
-                if (!empty($a['name'])) {
-                    $authors[] = $a['name'];
-                }
+    <style>
+    .book-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .book-card {
+        width: 200px;
+        background-color: #ffffff;
+        border: 1px solid #d1e9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        padding: 16px;
+        text-align: center;
+        font-family: 'Segoe UI', sans-serif;
+        transition: transform 0.2s;
+    }
+
+    .book-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .book-card img {
+        height: 150px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
+
+    .book-card h4 {
+        font-size: 16px;
+        margin: 10px 0 5px;
+        color: #0077b6;
+    }
+
+    .book-card p {
+        margin: 4px 0;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .book-card button {
+        background-color: #00b4d8;
+        border: none;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+    }
+
+    .book-card button:hover {
+        background-color: #0096c7;
+    }
+</style>
+
+<div class="book-grid">
+<?php foreach ($books as $b):
+    $title = $b['title'] ?? ($b['title_suggest'] ?? 'Sin título');
+    $authors = [];
+    if (!empty($b['authors'])) {
+        foreach ($b['authors'] as $a) {
+            if (!empty($a['name'])) {
+                $authors[] = $a['name'];
             }
         }
-        if (!empty($b['author_name'])) {
-            // search.json usa ['author_name']
-            $authors = $b['author_name'];
-        }
-        $author_list = implode(", ", $authors);
+    }
+    if (!empty($b['author_name'])) {
+        $authors = $b['author_name'];
+    }
+    $author_list = implode(", ", $authors);
 
-        // portada
-        if (!empty($b['cover_id'])) {
-            $img = "https://covers.openlibrary.org/b/id/{$b['cover_id']}-M.jpg";
-        } elseif (!empty($b['cover_i'])) {
-            $img = "https://covers.openlibrary.org/b/id/{$b['cover_i']}-M.jpg";
-        } else {
-            $img = '';
-        }
+    if (!empty($b['cover_id'])) {
+        $img = "https://covers.openlibrary.org/b/id/{$b['cover_id']}-M.jpg";
+    } elseif (!empty($b['cover_i'])) {
+        $img = "https://covers.openlibrary.org/b/id/{$b['cover_i']}-M.jpg";
+    } else {
+        $img = 'https://via.placeholder.com/150x200?text=Sin+portada';
+    }
 
-        $price = 20.00;
-    ?>
-        <div style="border:1px solid #ccc;margin:8px;padding:8px;width:180px">
-            <h4><?= htmlspecialchars($title) ?></h4>
-            <p><i><?= htmlspecialchars($author_list) ?></i></p>
-            <?php if ($img): ?>
-                <img src="<?= htmlspecialchars($img) ?>" height="120"><br>
-            <?php endif; ?>
-            <p>US$ <?= number_format($price,2) ?></p>
-            <form method="post" action="pedido.php">
-                <input type="hidden" name="title" value="<?= htmlspecialchars($title) ?>">
-                <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>">
-                <button type="submit">Pedir</button>
-            </form>
-        </div>
-    <?php endforeach; ?>
+    $price = 20.00;
+?>
+    <div class="book-card">
+        <img src="<?= htmlspecialchars($img) ?>" alt="Portada">
+        <h4><?= htmlspecialchars($title) ?></h4>
+        <p><i><?= htmlspecialchars($author_list) ?></i></p>
+        <p>US$ <?= number_format($price, 2) ?></p>
+        <form method="post" action="pedido.php">
+            <input type="hidden" name="title" value="<?= htmlspecialchars($title) ?>">
+            <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>">
+            <button type="submit">Pedir</button>
+        </form>
     </div>
+<?php endforeach; ?>
+</div>
+
 <?php endif; ?>
 
 </body>

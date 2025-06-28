@@ -28,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar Sesión  -  Librería</title>
+    <title>Iniciar Sesión - Librería</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: #f4f6f9;
+            background: linear-gradient(to right, #dbeeff, #f4f9fd);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
@@ -41,66 +41,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 100%;
             max-width: 400px;
             margin: 80px auto;
-            background: white;
-            padding: 30px 40px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
+            background: #ffffff;
+            padding: 35px 40px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 14px;
         }
 
         h1 {
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
+            font-size: 24px;
         }
 
         label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #34495e;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         input[type="email"],
         input[type="password"] {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            padding: 11px 12px;
+            border: 1px solid #cbd6e2;
+            border-radius: 8px;
             margin-bottom: 20px;
             font-size: 14px;
+            background-color: #f9fbfd;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #2980b9;
+            outline: none;
+            background-color: #ffffff;
         }
 
         button[type="submit"] {
             width: 100%;
             padding: 12px;
             background-color: #2980b9;
-            color: white;
+            color: #ffffff;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.1s;
         }
 
         button[type="submit"]:hover {
-            background-color: #1c6691;
+            background-color: #2471a3;
+            transform: scale(1.01);
         }
 
         .error-message {
             color: #e74c3c;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             text-align: center;
+            font-weight: 500;
         }
 
         .register-link {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 24px;
             font-size: 14px;
+            color: #555;
         }
 
         .register-link a {
             color: #2980b9;
             text-decoration: none;
+            font-weight: 500;
         }
 
         .register-link a:hover {
@@ -117,10 +132,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif ?>
 
         <form method="post" action="login.php">
-            <label for="correo">Correo:</label>
+            <label for="correo">Correo</label>
             <input type="email" id="correo" name="correo" required>
 
-            <label for="contrasena">Contraseña:</label>
+            <label for="contrasena">Contraseña</label>
             <input type="password" id="contrasena" name="contrasena" required>
 
             <button type="submit">Iniciar sesión</button>
