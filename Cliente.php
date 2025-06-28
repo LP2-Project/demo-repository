@@ -92,23 +92,84 @@ try {
     <title>Catálogo de Libros</title>
 </head>
 <body>
-<nav>
-    <form style="display:inline;" method="get" action="cliente.php">
-        <input type="text" name="search" placeholder="Buscar libro..."
-               value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-        <button type="submit">Buscar</button>
-    </form>
-    |
-    <a href="cliente.php">Inicio</a>
-    |
-    <a href="cliente.php?view=authors">Autores</a>
-    |
-    <a href="cliente.php?view=categories">Categorías</a>
-    |
-    <a href="orders.php">Mis Pedidos</a>
-    |
-    <a href="vistas/logout.php">Cerrar sesión</a>
+<nav class="navbar">
+    <div class="nav-left">
+        <form method="get" action="cliente.php" class="search-form">
+            <input type="text" name="search" placeholder="Buscar libro..."
+                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            <button type="submit">🔍</button>
+        </form>
+    </div>
+    <div class="nav-right">
+        <a href="cliente.php">Inicio</a>
+        <a href="cliente.php?view=authors">Autores</a>
+        <a href="cliente.php?view=categories">Categorías</a>
+        <a href="orders.php">Mis Pedidos</a>
+        <a href="vistas/logout.php" class="logout">Cerrar sesión</a>
+    </div>
 </nav>
+
+<style>
+    .navbar {
+        background-color: #2c3e50;
+        padding: 12px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Segoe UI', sans-serif;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-form {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-form input[type="text"] {
+        padding: 6px 10px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        outline: none;
+        font-size: 14px;
+    }
+
+    .search-form button {
+        padding: 6px 10px;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        background-color: #3498db;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s;
+    }
+
+    .search-form button:hover {
+        background-color: #2980b9;
+    }
+
+    .nav-right a {
+        color: white;
+        margin-left: 20px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .nav-right a:hover {
+        color: #f1c40f;
+    }
+
+    .nav-right .logout {
+        color: #e74c3c;
+        font-weight: bold;
+    }
+
+    .nav-right .logout:hover {
+        color: #c0392b;
+    }
+</style>
+
 
 <h1><?= htmlspecialchars($title_heading) ?></h1>
 
