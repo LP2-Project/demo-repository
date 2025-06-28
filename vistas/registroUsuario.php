@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre     = trim($_POST['nombre']);
     $correo     = trim($_POST['correo']);
     $contrasena = $_POST['contrasena'];
-    $tipo       = 'cliente';  // Solo registro de clientes
     $tipo       = 'cliente';
 
     try {
@@ -25,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro - Librería</title>
+    <title>Registro - Librería </title>
     <style>
         body {
             margin: 0;
