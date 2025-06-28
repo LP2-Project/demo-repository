@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar Sesión - Librería</title>
+    <title>Iniciar Sesión  -  Librería</title>
     <style>
         body {
             margin: 0;
