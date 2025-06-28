@@ -31,12 +31,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 0;
             background: linear-gradient(to right, #dbeeff, #f4f9fd);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding-top: 10px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 12px;
+            margin-top: -30px;
+            color: #2c3e50;
+        }
+
+        .welcome-text h2 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .welcome-text p {
+            font-size: 15px;
+            color: #555;
+            margin-top: 0;
         }
 
         .registro-container {
             width: 100%;
             max-width: 400px;
-            margin: 80px auto;
             background: #ffffff;
             padding: 35px 40px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
@@ -120,6 +143,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
+    <div class="welcome-text">
+        <h2>Únete a nuestra Librería Digital</h2>
+        <p>Completa tus datos para crear una cuenta y empezar a explorar libros.</p>
+    </div>
+
     <div class="registro-container">
         <h1>Regístrate como Cliente</h1>
 
@@ -128,14 +156,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif ?>
 
         <form method="post" action="registroUsuario.php">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <label for="nombre">Nombre </label> 
+            <input type="text" id="nombre" name="nombre" placeholder="Nombres" required>
 
             <label for="correo">Correo</label>
-            <input type="email" id="correo" name="correo" required>
+            <input type="email" id="correo" name="correo" placeholder="Correo electronico" required>
 
             <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" required>
+            <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
 
             <button type="submit">Registrarme</button>
         </form>

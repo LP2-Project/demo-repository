@@ -60,7 +60,12 @@ try {
                 }
             }
         }
+        $order = $_GET['order'] ?? 'asc';
         $authors = array_unique($auts);
+        natcasesort($authors);
+        if ($order === 'desc') {
+            $authors = array_reverse($authors);
+        }
         $title_heading = "Autores";
 
     // 5) Listar categorías
@@ -71,14 +76,29 @@ try {
             'romance'         => 'Romance',
             'mystery'         => 'Misterio'
         ];
+        $order = $_GET['order'] ?? 'asc';
+        asort($categories); // Orden ascendente por defecto
+
+        if ($order === 'desc') {
+            $categories = array_reverse($categories);
+        }
         $title_heading = "Categorías";
 
     // 6) Home por defecto: primeros 50 de ficción
     } else {
+        $order = $_GET['order'] ?? 'asc';
         $url = "https://openlibrary.org/subjects/fiction.json?limit={$limit}";
         $raw = file_get_contents($url);
         $json = json_decode($raw, true);
         $books = $json['works'] ?? [];
+
+        // Ordenar por título
+        usort($books, function ($a, $b) use ($order) {
+            $titleA = strtolower($a['title'] ?? '');
+            $titleB = strtolower($b['title'] ?? '');
+            return $order === 'desc' ? strcmp($titleB, $titleA) : strcmp($titleA, $titleB);
+        });
+
         $title_heading = "Novedades en Ficción";
     }
 } catch (Exception $e) {
@@ -219,6 +239,32 @@ try {
             padding: 10px 10px;
         }
     }
+    .orden-container {
+    text-align: center;
+    margin: 30px 0 10px;
+    }
+
+    .orden-label {
+        font-weight: 500;
+        font-size: 16px;
+        margin-right: 10px;
+        color: #2c3e50;
+    }
+
+    .orden-select {
+        padding: 8px 14px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #f0f4f8;
+        cursor: pointer;
+        transition: border-color 0.3s, background-color 0.3s;
+    }
+
+    .orden-select:hover {
+        border-color: #2980b9;
+        background-color: #e6f0fa;
+    }
 </style>
 
 
@@ -226,6 +272,25 @@ try {
 <h1><?= htmlspecialchars($title_heading) ?></h1>
 
 <?php if ($view === 'authors'): ?>
+    <?php
+        // Ordenar autores según la opción seleccionada (por defecto A-Z)
+        $order = $_GET['order'] ?? 'asc';
+        $authors = array_unique($auts);
+        natcasesort($authors);
+        $authors = $order === 'desc' ? array_reverse($authors) : $authors;
+    ?>
+
+    <div class="orden-container">
+        <form method="get" action="cliente.php">
+            <input type="hidden" name="view" value="authors">
+            <label for="order" class="orden-label">Ordenar por nombre:</label>
+            <select name="order" id="order" class="orden-select" onchange="this.form.submit()">
+                <option value="asc" <?= $order === 'asc' ? 'selected' : '' ?>>Ascendente (A-Z)</option>
+                <option value="desc" <?= $order === 'desc' ? 'selected' : '' ?>>Descendente (Z-A)</option>
+            </select>
+        </form>
+    </div>
+    
     <style>
         .author-grid {
             display: flex;
@@ -257,6 +322,7 @@ try {
             text-decoration: none;
             color: inherit;
         }
+        
     </style>
 
     <div class="author-grid">
@@ -304,6 +370,19 @@ try {
         }
     </style>
 
+    <div class="orden-container">
+        <form method="get" action="cliente.php">
+            <input type="hidden" name="view" value="categories">
+            <label for="order" class="orden-label">Ordenar por nombre:</label>
+            <select name="order" id="order" class="orden-select" onchange="this.form.submit()">
+                <option value="asc" <?= $order === 'asc' ? 'selected' : '' ?>>Ascendente (A-Z)</option>
+                <option value="desc" <?= $order === 'desc' ? 'selected' : '' ?>>Descendente (Z-A)</option>
+            </select>
+        </form>
+    </div>
+    
+  
+
     <div class="category-grid">
     <?php foreach ($categories as $key => $label): ?>
         <div class="category-card">
@@ -321,6 +400,7 @@ try {
     <?php endif; ?>
 
     <style>
+        
     .book-grid {
         display: flex;
         flex-wrap: wrap;
@@ -378,7 +458,16 @@ try {
         background-color: #0096c7;
     }
 </style>
-
+<div class="orden-container">
+    <form method="get" action="cliente.php">
+        <input type="hidden" name="order" value="<?= htmlspecialchars($order) ?>">
+        <label for="order" class="orden-label">Ordenar por título:</label>
+        <select name="order" id="order" class="orden-select" onchange="this.form.submit()">
+            <option value="asc" <?= $order === 'asc' ? 'selected' : '' ?>>Ascendente (A-Z)</option>
+            <option value="desc" <?= $order === 'desc' ? 'selected' : '' ?>>Descendente (Z-A)</option>
+        </select>
+    </form>
+</div>
 <div class="book-grid">
 <?php foreach ($books as $b):
     $title = $b['title'] ?? ($b['title_suggest'] ?? 'Sin título');

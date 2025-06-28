@@ -29,18 +29,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Iniciar Sesión - Librería</title>
+    
     <style>
         body {
             margin: 0;
             padding: 0;
             background: linear-gradient(to right, #dbeeff, #f4f9fd);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding-top: 10px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 12px;
+            margin-top: -30px;
+            color: #2c3e50;
+        }
+
+        .welcome-text h2 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        .welcome-text p {
+            font-size: 15px;
+            color: #555;
+            margin-top: 0;
         }
 
         .login-container {
             width: 100%;
             max-width: 400px;
-            margin: 80px auto;
             background: #ffffff;
             padding: 35px 40px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
@@ -124,7 +148,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
+    <div class="welcome-text">
+        <h2>Bienvenido a la Librería Digital</h2>
+        <p>Accede para explorar nuestro catálogo y realizar tus pedidos.</p>
+    </div>
+
     <div class="login-container">
+        <div class="icon-user"><i class="fas fa-user-circle"></i></div>
         <h1>Iniciar Sesión</h1>
 
         <?php if ($error): ?>
@@ -133,10 +163,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="post" action="login.php">
             <label for="correo">Correo</label>
-            <input type="email" id="correo" name="correo" required>
+            <input type="email" id="correo" name="correo" placeholder="Correo electrónico" required>
 
             <label for="contrasena">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" required>
+            <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
 
             <button type="submit">Iniciar sesión</button>
         </form>
