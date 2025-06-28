@@ -1,0 +1,10 @@
+En este proyecto estamos trabajando con una API pública de OpenLibrary, específicamente con esta dirección:
+
+https://openlibrary.org/subjects/fiction.json?limit=4000
+
+Desde esa URL obtenemos hasta 4000 libros de ficción, y usamos esa información para mostrar un catálogo en nuestra web. No guardamos los libros en la base de datos, sino que cada vez que se accede, el sistema consulta directamente a la API.
+
+Solo extraemos lo necesario como el título del libro, autor, imagen de portada y categoría, y lo mostramos de forma ordenada para que los usuarios puedan buscar, filtrar por autor o categoría, y hacer pedidos desde la misma interfaz.
+
+Este enfoque nos permite trabajar con datos reales y actualizados sin tener que llenarlos nosotros mismos, y también hace que el sistema sea más ligero y dinámico.
+
