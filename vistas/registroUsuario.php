@@ -12,7 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipo       = 'cliente';
 
     try {
-        $usuarioController->registrar($nombre, $correo, $contrasena, $tipo);
+        $usuarioController->guardar([
+            'nombre' => $nombre,
+            'correo' => $correo,
+            'contrasena' => $contrasena,
+            'tipo' => $tipo
+        ]);
+
         header('Location: login.php');
         exit;
     } catch (Exception $e) {
