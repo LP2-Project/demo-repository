@@ -9,20 +9,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $correo     = trim($_POST['correo']);
     $contrasena = $_POST['contrasena'];
 
-    if ($usuarioController->login($correo, $contrasena)) {
-        $_SESSION['correo'] = $correo;
-        $_SESSION['tipo']   = $usuarioController->getTipo($correo);
+if ($usuarioController->login($correo, $contrasena)) {
+    $tipo = $usuarioController->getTipo($correo);
+    $id   = $usuarioController->getIdPorCorreo($correo);
 
-        if ($_SESSION['tipo'] === 'cliente') {
-            header('Location: ../cliente.php');
-        } else {
-            header('Location: ../dashboard.php');
-        }
-        exit;
-    } else {
+    $_SESSION['correo']     = $correo;
+    $_SESSION['tipo']       = $tipo;
+    $_SESSION['id_usuario'] = $id;
+
+    if ($tipo === 'cliente') {
+        header('Location: cliente/cliente.php');
+    } elseif ($tipo === 'empleado') {
+        header('Location: empleado/empleado.php');
+    } elseif ($tipo === 'administrador') {
+        header('Location: admin/admin.php');
+    }
+    exit;
+}
+ else {
         $error = 'Correo o contraseña incorrectos.';
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
